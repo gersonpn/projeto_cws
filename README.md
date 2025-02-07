@@ -1,6 +1,5 @@
-# Manipulação de DataFrames com PySpark
 
-Este script realiza operações de transformação e filtragem em DataFrames usando a biblioteca PySpark. O objetivo é unir dados de vendas e clientes, filtrar vendas com valores acima de 200, converter datas e preparar um DataFrame para visualização.
+# Manipulação de DataFrames com PySpark
 
 ## Etapas do Processo
 
@@ -26,33 +25,25 @@ Este script realiza operações de transformação e filtragem em DataFrames usa
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, to_date
 
-# Realize a junção entre os DataFrames df_vendas e df_clientes,
+# Realiza a junção entre os DataFrames df_vendas e df_clientes,
 df_novo = df_vendas.join(df_clientes, on="cliente_id", how="inner")
 # Filtra a linha valor dentro do novo dataframe criado com mais de 200, com o metodo filter
 df_novo = df_novo.filter(col("valor") > 200)
-#Converta a coluna data_venda para o formato DateType.
+#Converte a coluna data_venda para o formato DateType.
 df_novo = df_novo.withColumn("data_venda", to_date(col("data_venda"), "yyyy-MM-dd"))
-#Selecione e renomeie as colunas para que o resultado final contenha apenas:
+#Seleciona e renomeie as colunas para que o resultado final contenha apenas:
 df_novo = df_novo.select(col("venda_id"), col("nome").alias("nome (nome do cliente)"),col("valor"), col("data_venda"))
 # Printa o dataframe
 df_novo.show()
 
 
-## Dependências
-
-- **PySpark**: A biblioteca do Apache Spark para Python.
+```
 
 ## Como Rodar
 
 1. Instale o PySpark, se necessário:
+
    ```bash
    pip install pyspark
    ```
-
-2. Certifique-se de ter os DataFrames `df_vendas` e `df_clientes` carregados antes de executar o script.
-
-3. Execute o script em seu ambiente de desenvolvimento.
-
----
-
-Esse README proporciona uma visão clara do que o código faz e como utilizá-lo.
+___
