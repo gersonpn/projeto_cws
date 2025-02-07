@@ -23,28 +23,20 @@ Este script realiza operações de transformação e filtragem em DataFrames usa
 ## Código
 
 ```python
+from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, to_date
 
-# Junção dos DataFrames
+# Realize a junção entre os DataFrames df_vendas e df_clientes,
 df_novo = df_vendas.join(df_clientes, on="cliente_id", how="inner")
-
-# Filtragem das vendas com valor acima de 200
+# Filtra a linha valor dentro do novo dataframe criado com mais de 200, com o metodo filter
 df_novo = df_novo.filter(col("valor") > 200)
-
-# Conversão da coluna 'data_venda' para o formato DateType
+#Converta a coluna data_venda para o formato DateType.
 df_novo = df_novo.withColumn("data_venda", to_date(col("data_venda"), "yyyy-MM-dd"))
-
-# Seleção e renomeação das colunas
-df_novo = df_novo.select(
-    col("venda_id"),
-    col("nome").alias("nome (nome do cliente)"),
-    col("valor"),
-    col("data_venda")
-)
-
-# Exibe o DataFrame resultante
+#Selecione e renomeie as colunas para que o resultado final contenha apenas:
+df_novo = df_novo.select(col("venda_id"), col("nome").alias("nome (nome do cliente)"),col("valor"), col("data_venda"))
+# Printa o dataframe
 df_novo.show()
-```
+
 
 ## Dependências
 
